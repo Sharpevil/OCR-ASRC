@@ -4,6 +4,7 @@ from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 import cv2
 import Detection.utils as utils
+import datetime
 
 
 def get_clustered_image(image, clusters):
@@ -24,6 +25,13 @@ def get_clustered_image(image, clusters):
     plt.figure()
     plt.axis("off")
     plt.imshow(new_image)
+    img_location = "../TEMP/" + datetime.datetime.now().strftime("%m%d%I%M%S%f") + ".png"
+    plt.savefig(img_location, bbox_inches='tight')
+    plt.show()
+
+    edges = utils.edges(img_location)
+    plt.subplot(122), plt.imshow(edges, cmap='gray')
+
     plt.show()
 
 
@@ -46,4 +54,12 @@ def get_greyscale_layers(image, clusters):
         plt.figure()
         plt.axis("off")
         plt.imshow(new_image)
+        img_location = "../TEMP/" + datetime.datetime.now().strftime("%m%d%I%M%S%f") + ".png"
+        plt.savefig(img_location, bbox_inches='tight')
+        plt.show()
+
+        edges = utils.canny_edge(img_location)
+        plt.imshow(edges, cmap='gray')
+        plt.axis("off")
+
         plt.show()

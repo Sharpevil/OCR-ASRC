@@ -1,6 +1,7 @@
 # imports of import
 import numpy as np
 import cv2
+from skimage import feature
 
 
 def centroid_histogram(clt):
@@ -38,6 +39,7 @@ def recolor_img(image, clt):
         image[point] = clt.cluster_centers_[clt.labels_[point]]
     return image
 
+
 def layer_img(image, clt, layer):
     for point in range(0, len(image) - 1):
         if clt.labels_[point] == layer:
@@ -45,3 +47,15 @@ def layer_img(image, clt, layer):
         else:
             image[point] = [256, 256, 256]
     return image
+
+
+# Automatic threshold generation taken from
+# https://www.pyimagesearch.com/2015/04/06/zero-parameter-automatic-canny-edge-detection-with-python-and-opencv/
+def canny_edge(image, sigma=0.33):
+    image = cv2.imread(image, 0)
+    v = np.median(image)
+
+    lower = int(max(0, (1.0 - sigma) * v))
+    upper = int(min(255, (1.0 + sigma) * v))
+    edges = cv2.Canny(image, lower, upper)
+    return edges

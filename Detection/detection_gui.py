@@ -52,5 +52,3 @@ run_button.pack()
 
 
 window.mainloop()
-
-
